@@ -234,10 +234,7 @@ function promiseErrorHandler(err) {
  ********************************************************************************************************************/
 $(document).ready(function() {
   var model = [];
-
-
-
-
+  
   initMap("map", [50.8465565, 4.351697]);
   initResultsTable("results-table", "jqGridPager");
   initHistoryTable("query-history-table");

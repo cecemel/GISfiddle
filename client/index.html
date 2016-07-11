@@ -91,7 +91,17 @@
           <li>Since only limited resources available to host it, only Belgium is provided as area you can test your queries on.</li>
           <li>There is currently only support for one backend, i.e. PostGIS, but if people like it, others might (hopefully) follow.</li>
           <li>There is a arbitrary limit of 10000 rows provided, since else you might explose your browser's memory. (yes, yes, this can be optmized, but... later)</li>
+        </ul>
 
+        <h3>examples</h3>
+        <ul>
+        <li> <strong> /* Simple select query, displays on layer on map */ </strong> <br>
+          <i> select st_asgeojson(linestring) from ways limit 100; </i> <br>
+          <strong> /* Please note: LIMIT is non deterministic*/</li> </strong>
+        <li> <strong> /* Simple select query, displays results in a table */ </strong> <br>
+          <i> select * from ways limit 100; </i> </li>
+        <li> <strong> /* Select all ways within specifc bounding box with tag highway */ </strong> <br>
+          <i> SELECT st_asgeojson(linestring) FROM ways WHERE  ST_intersects(ways.bbox, ST_MakeEnvelope(5.9753, 49.6364, 6.0459, 49.6766, 4326)) AND (exist(ways.tags, 'highway')) </i></li>
         </ul>
         <button type="button" class="btn btn-success" id="about-ok">got it!</button>
         </div>
