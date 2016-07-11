@@ -1,0 +1,13 @@
+{
+    "server": {
+        "host" : "localhost",
+        "port" : 6969
+    },
+    "gisDb" : {
+        "connectionString" : "postgres://postgres@localhost/gis_fiddle"
+    },
+    "sessionsDb" : {
+        "connectionString" : "mongodb://localhost:27017/gisfiddle_sessions"	
+    }
+
+}

@@ -1,0 +1,27 @@
+{
+  "name": "gisfiddle",
+  "version": "0.0.1",
+  "description": "quick and dirty tool to visualise gis queries",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "cecemel",
+  "license": "BSD-2-Clause",
+  "engines": {
+    "node": "0.10.25"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "config": "~1.19.0",
+    "express": "^4.13.4",
+    "fs": "~0.0.2",
+    "mongodb": "~2.1.7",
+    "pg": "~4.4.3",
+    "xss-filters": "^1.2.6",
+    "html-entities":"^1.2.0",
+    "log4js": "*"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,160 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 25 March 2009), see www.w3.org" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>GISfiddle</title>
+  <base href="/">
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/leaflet.css" type="text/css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/jqgrid/ui.jqgrid.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/jqgrid/ui.jqgrid-bootstrap.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+  <script src="lib/xss-filter/xss-filters.min.js"></script>
+  <script src="lib/jquery/jquery-1.12.0.min.js"></script>
+  <script src="lib/underscore/underscore-min.js"></script>
+  <script src="lib/jqgrid/grid.locale-en.js"></script>
+  <script src="lib/jqgrid/jquery.jqGrid.min.js"></script>
+  <script src="lib/q/q.js"></script>
+  <script src="lib/bootstrap/bootstrap.min.js"></script>
+  <script src="lib/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+  <script src="src/utils.js"></script>
+  <script src="src/geo-utils.js"></script>
+  <script src="src/ui-components.js"></script>
+  <script src="src/gis-fiddle.js"></script>
+  <style type="text/css">
+  /*<![CDATA[*/
+  * {
+  border-radius: 0 !important;
+  } 
+  body { padding-top: 70px; padding-left: 2px; padding-right: 2px;}
+  .navbar-default .navbar-nav > li > a:hover {
+    background-color: #e7e7e7;
+  }
+  #map {
+    height: 400px; 
+  }
+  .top-buffer { margin-top:20px; }
+
+  .fa{
+    margin-right: 3px
+  }
+
+  .ui-jqgrid-sortable{
+    min-height: 30px; /* hack because of issue with display of header ...*/
+  }
+  /*]]>*/
+  </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">GISfiddle</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#" id="button-run"><i class="fa fa-play-circle"></i> run</a></li>
+        <li><a href="#" id="button-save"><i class="fa fa-floppy-o"></i> save</a></li>
+        <li><a href="#" id="button-about"><i class="fa fa-info-circle"></i> about</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="row" id="about" style="display: none">
+      <div class="col-md-12">
+        <h3>what</h3>
+        A tool to simply visualize the result of your spacial queries. <br>
+        You can also save and share them.
+        <h3>why</h3>
+        Needed one myself, all other clients I found seemed too complicated or just muh...
+        <h3>other things</h3>
+        <ul>
+          <li>It is still very bare bones, it just covers the requirements I initially had.</li>
+          <li>Source on <a href="https://github.com/cecemel/GISfiddle">github</a>, there is also a docker compose version <a href="https://github.com/cecemel/GISfiddle-docker">here</a>, so you can build it with almost one command. </li>
+          <li>Since only limited resources available to host it, only Belgium is provided as area you can test your queries on.</li>
+          <li>There is currently only support for one backend, i.e. PostGIS, but if people like it, others might (hopefully) follow.</li>
+          <li>There is a arbitrary limit of 10000 rows provided, since else you might explose your browser's memory. (yes, yes, this can be optmized, but... later)</li>
+
+        </ul>
+        <button type="button" class="btn btn-success" id="about-ok">got it!</button>
+        </div>
+      </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div id="execution-info"class="alert" style="display: none;">
+        </div>
+      </div>
+      <div class="col-md-12">
+       <div id="map"></div>
+     </div>
+   </div>
+
+   <div class="row top-buffer">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#query-tab">query</a></li>
+
+        <li><a data-toggle="tab" href="#results-table-tab">results table</a></li>
+
+        <li><a data-toggle="tab" href="#schema-tab">database schema</a></li>
+
+        <li><a data-toggle="tab" href="#query-history-tab">query-history</a></li>
+      </ul>
+
+
+      <div class="tab-content">
+        <div id="query-tab" class="tab-pane fade in active">
+          <div class="row top-buffer"> 
+            <div class="col-md-10">
+              <div class="form-group">
+                <textarea class="form-control" rows="10" id="box-query" 
+                placeholder="SELECT ST_AsGeoJSON(linestring) FROM ways LIMIT 10;" 
+                value="SELECT ST_AsGeoJSON(linestring) FROM ways LIMIT 10;"></textarea>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div  class="input-group color-picker">
+              <input id="display-color" type="text" value="#2c8aa8" class="form-control"/>
+              <span class="input-group-addon"><i></i></span>
+            </div>
+            </div>
+        </div>
+      </div>
+
+        <div id="results-table-tab" class="tab-pane fade">
+          <table id="results-table"></table>
+          <div id="jqGridPager"></div>
+        </div>
+
+        <div id="schema-tab" class="tab-pane fade">
+           <div id="schema-tree"></div>
+        </div>
+
+        <div id="query-history-tab" class="tab-pane fade">
+          <table id="query-history-table"></table>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+  </div><!-- /.container-fluid -->
+</body>
+</html>
