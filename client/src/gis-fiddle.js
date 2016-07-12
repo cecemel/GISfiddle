@@ -188,22 +188,22 @@ function updateUiSaveSession(){
 /********************************************************************************************************************
  * SESSION LOADING
  ********************************************************************************************************************/
- function loadSceneBackend(model,uri) {
+ function loadSceneBackend(model, uri) {
   document.dispatchEvent(new CustomEvent('updateInfo', { 'detail': {type: "info", msg: "loading scene, please hold on..."}}));
-  var pipelineTemplate = [validateInput, runQuery, parseQueryResult, updateUiLoadScene];
+  var pipelineTemplate = [validateInput, runQuery, parseQueryResult, utils.curry(updateModel, model), updateUiLoadScene];
   var fullPipeline = []
   utils.getJson(uri)
   .then(function(data) {
-      data['sessionData'].forEach(function(data){
-        var queryObj = initQuery();
-        queryObj.query = data.query;
-        queryObj.options = data.options;
-        queryObj.id = data.id;
+      data['sessionData'].forEach(function(element){
 
-        model.push(queryObj);
+        var initCall = [function(){
+          var queryObj = initQuery();
+          queryObj.query = element.query;
+          queryObj.options = element.options;
+          return Q(queryObj)
 
-        var initCall = [function(){return Q(queryObj)}].concat(pipelineTemplate);
-        fullPipeline = fullPipeline.concat(fullPipeline, initCall) //basically making one long pipeline, not efficient don't care
+        }].concat(pipelineTemplate);
+        fullPipeline = fullPipeline.concat(initCall) //basically making one long pipeline, not efficient don't care
       })
 
       //finishing message
