@@ -101,7 +101,7 @@
         <li> <strong> /* Simple select query, displays results in a table */ </strong> <br>
           <i> select * from ways limit 100; </i> </li>
         <li> <strong> /* Select all ways within specifc bounding box with tag highway */ </strong> <br>
-          <i> SELECT st_asgeojson(linestring) FROM ways WHERE  ST_intersects(ways.bbox, ST_MakeEnvelope(5.9753, 49.6364, 6.0459, 49.6766, 4326)) AND (exist(ways.tags, 'highway')) </i></li>
+          <i> SELECT st_asgeojson(linestring) FROM ways WHERE  ST_intersects(ways.bbox, ST_MakeEnvelope(4.7116, 50.8218, 4.7290, 50.8333, 4326)) AND (exist(ways.tags, 'highway')) </i></li>
         </ul>
         <button type="button" class="btn btn-success" id="about-ok">got it!</button>
         </div>
