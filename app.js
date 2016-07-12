@@ -54,7 +54,7 @@ app.post("/queries", function(request, response, next) {
     .then(
       function(val) {
         logger.info("query ok:" + query);
-        _sendResponse(response, 200, val.rows);
+        _sendResponse(response, 200, val.rows || []);
       }
     )
     .catch(

@@ -56,6 +56,12 @@ function runQuery(queryObj) {
 function parseQueryResult(queryObj) {
   var deferred = Q.defer();
 
+  if(queryObj.rawResult.length == 0){
+    queryObj.log = {type: "warning", msg: "No rows found..."}
+    deferred.resolve(queryObj)
+    return deferred.promise;
+  }
+
   extractGeoJsonColumns(queryObj.rawResult)
     .then(function(geoJsonColumns) {
 
@@ -234,7 +240,7 @@ function promiseErrorHandler(err) {
  ********************************************************************************************************************/
 $(document).ready(function() {
   var model = [];
-  
+
   initMap("map", [50.8465565, 4.351697]);
   initResultsTable("results-table", "jqGridPager");
   initHistoryTable("query-history-table");
