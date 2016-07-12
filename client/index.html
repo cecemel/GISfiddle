@@ -6,6 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>GISfiddle</title>
+
+
+  <meta property="og:url"           content="http://gisfiddle.net" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="GISfiddle" />
+  <meta property="og:description"   content="Quick test and share spatial queries" />
+  <meta property="og:image"         content="http://gisfiddle.net/resources/gisfiddle_icon.png" />
+
+
+
   <base href="/">
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="css/leaflet.css" type="text/css" />
@@ -119,6 +129,8 @@
 
    <div class="row top-buffer">
     <div class="col-md-12">
+      <div class="fb-share-button"  data-href="http://gisfiddle.net" data-layout="button_count" 
+           style="float:right" size="large" mobile_iframe="true"></div>
       <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#query-tab">query</a></li>
 
@@ -144,7 +156,7 @@
               <div  class="input-group color-picker">
               <input id="display-color" type="text" value="#2c8aa8" class="form-control"/>
               <span class="input-group-addon"><i></i></span>
-            </div>
+              </div>
             </div>
         </div>
       </div>
@@ -165,6 +177,16 @@
     </div>
 </div>
 </div>
-  </div><!-- /.container-fluid -->
+
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+</div><!-- /.container-fluid -->
 </body>
 </html>

@@ -18,3 +18,5 @@ App is still very bare bone so perhaps wait a little more....
  * remove queries in query table
  * clear results table after new query
  * replace the strange app thing with '#'
+ * limit memory consumption for a query
+ * cecemelchocokljlkj: one feature suggestion is the ability to select a bounding box on the map and have some token you can put in the query which gets expanded to it, e.g. so you can write select linestring from ways where linestring && :bbox:
