@@ -65,7 +65,7 @@ function parseQueryResult(queryObj) {
   extractGeoJsonColumns(queryObj.rawResult)
     .then(function(geoJsonColumns) {
 
-      var logs = {type: "success", msg: "All ok! Layer added. (Toggle it in the right upper corner of the map)" 
+      var logs = {type: "success", msg: "All ok! (Toggle layer in the right upper corner of the map)" 
                      + " (" + queryObj.rawResult.length + " rows found)"}
       
       var parsedResults = {
